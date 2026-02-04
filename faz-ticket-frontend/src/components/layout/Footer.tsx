@@ -100,7 +100,6 @@ export const Footer = () => {
               <span className="text-xs font-black tracking-widest uppercase">MTN MoMo</span>
               <span className="text-xs font-black tracking-widest uppercase">Airtel Money</span>
               <span className="text-xs font-black tracking-widest uppercase">Zamtel Pay</span>
-              <span className="text-xs font-black tracking-widest uppercase">Visa / Mastercard</span>
             </div>
             
             <div className="text-xs font-medium text-emerald-100/40">

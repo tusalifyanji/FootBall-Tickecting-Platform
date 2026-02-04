@@ -135,7 +135,7 @@ export default function Landing() {
         <div>
           <h3 className="font-black uppercase italic text-sm tracking-wider text-slate-900">Easy Payments</h3>
           <p className="text-sm text-slate-500 mt-1 leading-relaxed">
-            Pay instantly using MoMo (MTN, Airtel, Zamtel) or your Visa card.
+            Pay instantly using MTN, Airtel or Zamtel.
           </p>
         </div>
       </div>
