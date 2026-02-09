@@ -3,18 +3,19 @@ import { createContext, useContext, useState, ReactNode, useMemo } from "react";
 import { CartItem } from "../types/ticket";
 
 interface CartContextType {
-  cart: CartItem[]; // Changed from 'items' to 'cart' to match your page imports
+  cart: CartItem[];
   addToCart: (item: CartItem) => void;
   removeFromCart: (index: number) => void;
   updateQuantity: (index: number, quantity: number) => void;
   clearCart: () => void;
-  totalPrice: number; // Added this so you don't have to calculate it on every page
+  totalPrice: number;
+  itemCount: number; // 1. Add this to your interface
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cart, setCart] = useState<CartItem[]>([]); // Changed from 'items'
+  const [cart, setCart] = useState<CartItem[]>([]);
 
   const addToCart = (item: CartItem) => setCart((prev) => [...prev, item]);
   
@@ -28,14 +29,19 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const clearCart = () => setCart([]);
 
-  // Calculate total price here once
+  // 2. Calculate the total number of items (sum of all quantities)
+  const itemCount = useMemo(() => 
+    cart.reduce((acc, item) => acc + item.quantity, 0), 
+  [cart]);
+
   const totalPrice = useMemo(() => 
     cart.reduce((acc, item) => acc + (item.price * item.quantity), 0), 
   [cart]);
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, totalPrice }}
+      // 3. Pass itemCount into the value
+      value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, totalPrice, itemCount }}
     >
       {children}
     </CartContext.Provider>

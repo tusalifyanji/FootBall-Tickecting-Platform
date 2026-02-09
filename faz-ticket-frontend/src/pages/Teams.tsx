@@ -168,7 +168,7 @@ const Teams = () => {
               size="lg"
               className="bg-[#0e633d] hover:bg-[#0a4a2e] text-white px-12 h-16 rounded-none text-xs font-bold uppercase tracking-[0.2em] transition-all shadow-xl shadow-[#0e633d]/20"
             >
-              <Link to="/#matches">
+              <Link to="/#ToMatches">
                 Browse matches
                 <ArrowRight className="ml-3 h-4 w-4" />
               </Link>

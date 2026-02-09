@@ -171,7 +171,7 @@ export default function Checkout() {
                   </div>
                   <Input
                     className="pl-20 h-14 rounded-xl border-slate-200 focus:ring-[#0e633d] focus:border-[#0e633d]"
-                    placeholder="97 000 0000"
+                    placeholder="Enter your mobile number"
                   />
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100 text-slate-600 text-xs leading-relaxed">
@@ -231,7 +231,7 @@ export default function Checkout() {
     },
     {
       title: "Stadium Security",
-      desc: "Entry is subject to standard safety checks at Levy Mwanawasa Stadium. Prohibited items may result in denied access for everyone’s safety.",
+      desc: "Entry is subject to standard safety checks at the Stadium. Prohibited items may result in denied access for everyone’s safety.",
       icon: <ShieldCheck className="h-5 w-5 text-[#ef7d00]" />,
     },
     {

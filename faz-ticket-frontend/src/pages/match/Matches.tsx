@@ -6,12 +6,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 
-// --- CUSTOM FLAG MAPPING ---
-const FLAG_URLS: Record<string, string> = {
-  "Zambia": "https://res.cloudinary.com/dceqpo559/image/upload/v1769517006/Flag-Zambia_bjon4o.webp",
-  "Malawi": "https://res.cloudinary.com/dceqpo559/image/upload/v1769516445/malawi_flag_2_juknav.jpg"
-};
-
 const SAMPLE_FIXTURES = [
   {
     id: "5",
@@ -49,7 +43,7 @@ export default function Matches() {
                   <div className="flex flex-col items-center gap-3">
                     <div className="h-16 w-24 rounded-lg overflow-hidden border shadow-sm bg-slate-100">
                       <img 
-                        src={FLAG_URLS[match.homeTeam] || "https://res.cloudinary.com/dceqpo559/image/upload/v1769516445/malawi_flag_2_juknav.jpg"} 
+
                         alt={match.homeTeam}
                         className="w-full h-full object-cover"
                         onError={(e) => e.currentTarget.style.display = 'none'}
@@ -64,7 +58,6 @@ export default function Matches() {
                   <div className="flex flex-col items-center gap-3">
                     <div className="h-16 w-24 rounded-lg overflow-hidden border shadow-sm bg-slate-100">
                       <img 
-                        src={FLAG_URLS[match.awayTeam] || ""} 
                         alt={match.awayTeam}
                         className="w-full h-full object-cover"
                         onError={(e) => e.currentTarget.style.display = 'none'}

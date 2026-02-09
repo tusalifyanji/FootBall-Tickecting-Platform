@@ -122,25 +122,37 @@ export default function MatchDetails() {
       <Header />
       
       {/* Hero Match Header */}
-      <div className="relative rounded-[2.5rem] overflow-hidden mb-10 shadow-2xl h-[400px]">
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0e633d] via-[#0e633d]/70 to-transparent z-10" />
-        <img 
-          src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=2000" 
-          className="absolute inset-0 w-full h-full object-cover" 
-          alt="Chipolopolo Zambia" 
-        />
-        <div className="relative z-20 p-8 md:p-12 h-full flex flex-col justify-end">
-          <Badge className="bg-[#FF9900] text-white border-none mb-4 px-6 py-1 w-fit font-semibold shadow-lg">World Cup Qualifier</Badge>
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight">
-            Zambia <span className="text-[#FF9900]">vs</span> Malawi
-          </h1>
-          <div className="flex flex-wrap gap-8 text-white/90 font-medium text-sm md:text-base">
-            <span className="flex items-center gap-2 drop-shadow"><Calendar className="h-5 w-5 text-[#FF9900]" /> Jan 25, 2026</span>
-            <span className="flex items-center gap-2 drop-shadow"><Clock className="h-5 w-5 text-[#FF9900]" /> 15:00 CAT</span>
-            <span className="flex items-center gap-2 drop-shadow"><MapPin className="h-5 w-5 text-[#FF9900]" /> Levy Mwanawasa, Ndola</span>
+        <div className="relative rounded-[2.5rem] overflow-hidden mb-10 shadow-2xl h-[400px]">
+          {/* Green overlay removed for maximum image visibility */}
+            <img 
+                src="https://res.cloudinary.com/dceqpo559/image/upload/v1770295140/fb_image_a6tiqe.jpg" 
+                className="absolute inset-0 w-full h-full object-cover" 
+                  alt="Chipolopolo Zambia" 
+                    />
+  
+                <div className="relative z-20 p-8 md:p-12 h-full flex flex-col justify-end">
+              <Badge className="bg-[#FF9900] text-white border-none mb-4 px-6 py-1 w-fit font-semibold shadow-lg uppercase tracking-wider">
+                World Cup Qualifier
+                </Badge>
+    
+    {/* Added drop-shadow to text to keep it readable against the bright image */}
+    <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+      Zambia <span className="text-[#FF9900]">vs</span> Malawi
+    </h1>
+    
+    <div className="flex flex-wrap gap-8 text-white font-medium text-sm md:text-base drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+      <span className="flex items-center gap-2">
+        <Calendar className="h-5 w-5 text-[#FF9900]" /> Jan 25, 2026
+      </span>
+      <span className="flex items-center gap-2">
+        <Clock className="h-5 w-5 text-[#FF9900]" /> 15:00 CAT
+      </span>
+      <span className="flex items-center gap-2">
+        <MapPin className="h-5 w-5 text-[#FF9900]" /> Levy Mwanawasa, Ndola
+                  </span>
+                </div>
+              </div>
           </div>
-        </div>
-      </div>
 
       <main className="flex-1 container mx-auto px-4 -mt-8 pb-20 relative z-20">
         <div className="grid lg:grid-cols-12 gap-8">
@@ -289,8 +301,8 @@ export default function MatchDetails() {
                       <div className="flex justify-between items-start">
                         <div className="space-y-1">
                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Zone</p>
-                          <p className="text-2xl font-black text-[#0e633d] leading-none uppercase italic">{selectedBlock.wing}</p>
-                          <p className="text-[10px] font-bold text-slate-400 uppercase">{selectedBlock.name}</p>
+                          <p className="text-2xl font-black text-[#0e633d] leading-none">{selectedBlock.wing}</p>
+                          <p className="text-[10px] font-bold text-slate-400">{selectedBlock.name}</p>
                         </div>
                         <div className="bg-[#0e633d] text-white px-5 py-3 rounded-2xl text-center shadow-lg">
                            <p className="text-[8px] font-bold uppercase opacity-60 mb-1">Gate</p>
@@ -321,8 +333,8 @@ export default function MatchDetails() {
                           <span className="text-slate-900">ZMW {selectedBlock.price.toFixed(2)}</span>
                         </div>
                         <div className="pt-4 flex justify-between items-end">
-                           <span className="font-black text-[#0e633d] text-lg uppercase tracking-tighter italic">Total Amount</span>
-                           <p className="text-4xl font-black text-[#0e633d] tracking-tighter">
+                           <span className="font-black text-[#0e633d] text-lg uppercase">Total Amount</span>
+                           <p className="text-2xl font-black text-[#0e633d] tracking-tighter">
                              K <span className="text-[#ef7d00]">{totalPrice.toFixed(2)}</span>
                            </p>
                         </div>

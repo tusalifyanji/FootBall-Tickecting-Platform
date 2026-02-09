@@ -37,7 +37,7 @@ export const Header = () => {
           </div>
           <div className="flex flex-col -space-y-1">
           <span className="font-black text-2xl tracking-tighter text-slate-900 uppercase italic">
-            FAZ<span className="text-[#0e633d]">TICKETS</span>
+            FAZ<span className="text-[#0e633d]">TICKETING</span>
           </span>
             <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.3em] ml-0.5">
             Official Platform

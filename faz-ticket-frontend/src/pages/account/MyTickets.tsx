@@ -20,23 +20,10 @@ export default function MyTickets() {
       // 2. Your default/mock tickets for UI testing
       const defaultTickets = [
         {
-          id: "TKT-001",
-          match: "Zambia vs Malawi",
-          competition: "World Cup Qualifier",
-          date: "Sat, 18 Oct 2025",
-          time: "15:00",
-          stadium: "National Heroes Stadium",
-          city: "Lusaka",
-          zone: "Covered Stand",
-          row: "12",
-          seats: ["15", "16"],
-          total: 292.32,
-        },
-        {
           id: "TKT-002",
           match: "ZESCO United vs Zanaco",
           competition: "Super League",
-          date: "Sun, 26 Oct 2025",
+          date: "Sun, 20 Feb 2026",
           time: "14:00",
           stadium: "Levy Mwanawasa Stadium",
           city: "Ndola",
@@ -63,8 +50,8 @@ export default function MyTickets() {
       time: "18:00",
       stadium: "National Heroes Stadium",
       city: "Lusaka",
-      zone: "General Stand",
-      row: "20",
+      zone: "West Wing",
+      row: "5",
       seats: ["10"],
       total: 95.0,
       attended: true,
@@ -129,10 +116,6 @@ export default function MyTickets() {
             <div>
               <p className="text-[9px] font-black text-slate-400 uppercase">Zone</p>
               <p className="text-xs font-bold truncate">{ticket.zone}</p>
-            </div>
-            <div>
-              <p className="text-[9px] font-black text-slate-400 uppercase">Sec</p>
-              <p className="text-xs font-bold">{ticket.section || "B"}</p>
             </div>
             <div>
               <p className="text-[9px] font-black text-slate-400 uppercase">Row</p>

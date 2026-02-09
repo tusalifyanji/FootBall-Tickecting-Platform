@@ -6,11 +6,17 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-stadium.jpg";
 
-// NEW: import the extracted component
 import UpcomingMatches from "@/pages/LandingComponents/upcomingmatches";
 
 export default function Landing() {
   const [/* searchQuery */, setSearchQuery] = useState("");
+
+   const scrollToMatches = () => {
+    const section = document.getElementById("matches");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -54,6 +60,7 @@ export default function Landing() {
            {/* Primary Button: Solid Orange */}
               <Button 
                  size="lg" 
+                 onClick ={scrollToMatches}
                 className="h-14 px-8 font-black uppercase italic bg-orange-600 text-white hover:bg-orange-700 shadow-lg border-none"
             >
               Buy Tickets Now
@@ -63,7 +70,8 @@ export default function Landing() {
             <Button 
               size="lg" 
               variant="outline"
-                className="h-14 px-8 font-black uppercase italic border-2 border-orange-500 bg-black/20 text-orange-500 hover:bg-orange-500 hover:text-white transition-all backdrop-blur-sm"
+              onClick={scrollToMatches}
+              className="h-14 px-8 font-black uppercase italic border-2 border-orange-500 bg-black/20 text-orange-500 hover:bg-orange-500 hover:text-white transition-all backdrop-blur-sm"
               >
               View Matches
             </Button>
@@ -98,9 +106,10 @@ export default function Landing() {
                         </div>
                       </div>
 
-                      <Button className="mt-6 w-full h-12 text-base font-black uppercase italic bg-[#0e633d] hover:bg-black text-white rounded-xl">
+                     <div className="mt-6 w-full h-12 flex items-center justify-center text-base font-black uppercase italic bg-orange-600 text-white rounded-xl shadow-md select-none">
                         Choose Seats
-                      </Button>
+                    </div>
+
                     </div>
                   </div>
                 </div>
@@ -110,9 +119,9 @@ export default function Landing() {
         </section>
 
         {/* Trust Badges */}
-<section className="py-12 bg-white border-b border-slate-100">
-  <div className="container mx-auto px-4">
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <section className="py-12 bg-white border-b border-slate-100">
+          <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
       
       {/* 100% Secure */}
       <div className="flex items-start gap-5 group">
@@ -148,7 +157,7 @@ export default function Landing() {
         <div>
           <h3 className="font-black uppercase italic text-sm tracking-wider text-slate-900">Instant Tickets</h3>
           <p className="text-sm text-slate-500 mt-1 leading-relaxed">
-            Receive your digital QR ticket via SMS and Email immediately.
+            Receive your digital QR ticket immediately.
           </p>
         </div>
       </div>
@@ -204,12 +213,12 @@ export default function Landing() {
               <div className="text-center">
                 <div className="h-20 w-20 rounded-full bg-primary text-primary-foreground flex items-center justify-center mx-auto mb-4 text-3xl font-bold">3</div>
                 <h3 className="text-xl font-bold mb-2">Pay & Get Tickets</h3>
-                <p className="text-muted-foreground">Secure payment via Mobile Money or Card. Instant ticket delivery</p>
+                <p className="text-muted-foreground">Secure payment via Mobile Money. Instant phone ticket delivery</p>
               </div>
             </div>
 
             <div className="text-center mt-10">
-              <Button variant="hero" size="lg">
+              <Button variant="hero" size="lg" onClick={scrollToMatches}>
                 Start Buying Tickets
                 <ChevronRight className="ml-2 h-5 w-5" />
               </Button>
