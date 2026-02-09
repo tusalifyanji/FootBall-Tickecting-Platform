@@ -1,15 +1,19 @@
 // src/pages/Landing.tsx
 import { useState } from "react";
-import { Shield, CreditCard, Ticket, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Shield, CreditCard, Ticket, ChevronRight, Lock, QrCode, RefreshCw } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-stadium.jpg";
 
 import UpcomingMatches from "@/pages/LandingComponents/upcomingmatches";
+import SecurityArchitecture from "@/pages/SecurityArchitecture";
 
 export default function Landing() {
   const [/* searchQuery */, setSearchQuery] = useState("");
+  const [showSecurity, setShowSecurity] = useState(false);
+  const navigate = useNavigate();
 
    const scrollToMatches = () => {
     const section = document.getElementById("matches");
@@ -226,29 +230,33 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* Safety & Anti-Fraud */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto bg-gradient-to-br from-success/10 to-primary/5 rounded-2xl p-8 border-2 border-success/20">
-              <div className="flex items-start gap-4">
-                <div className="h-12 w-12 rounded-full bg-success flex items-center justify-center flex-shrink-0">
-                  <Shield className="h-6 w-6 text-success-foreground" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold mb-3">Your Safety is Our Priority</h3>
-                  <p className="text-muted-foreground mb-4">
-                    All tickets are verified and secured with unique QR codes. Our anti-fraud system
-                    ensures every ticket is genuine and can only be scanned once at the gate.
-                  </p>
-                  <Button variant="outline">
-                    Learn About Our Security
-                    <ChevronRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            </div>
+{/* Safety & Anti-Fraud */}
+            <section className="py-16">
+        <div className="container mx-auto px-4">
+        <div className="max-w-3xl mx-auto bg-gradient-to-br from-success/10 to-primary/5 rounded-2xl p-8 border-2 border-success/20">
+      <div className="flex items-start gap-4">
+        <div className="h-12 w-12 rounded-full bg-success flex items-center justify-center flex-shrink-0">
+          <Shield className="h-6 w-6 text-success-foreground" />
+        </div>
+        <div>
+          <h3 className="text-2xl font-bold mb-3">Your Safety is Our Priority</h3>
+          <p className="text-muted-foreground mb-4">
+            All tickets are verified and secured with unique QR codes. Our anti-fraud system
+            ensures every ticket is genuine and can only be scanned once at the gate.
+          </p>
+
+          <Button
+            variant="outline"
+          onClick={() => navigate("/security-architecture")}
+        >
+          Learn About Our Security
+          <ChevronRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
           </div>
-        </section>
+        </div>
+        </div>
+      </section>
       </main>
       <Footer />
     </div>

@@ -21,6 +21,7 @@ import MyTickets from "./pages/account/MyTickets";
 import Teams from "./pages/Teams";
 import Help from "./pages/Help";
 import NotFound from "./pages/NotFound";
+import SecurityArchitecture from "./pages/SecurityArchitecture";
 
 /**
  * ScrollToTop Component
@@ -81,6 +82,7 @@ const App = () => (
             <Route path="/account/tickets" element={<MyTickets />} />
             <Route path="/teams" element={<Teams />} />
             <Route path="/help" element={<Help />} />
+            <Route path="/security-architecture" element={<SecurityArchitecture />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
