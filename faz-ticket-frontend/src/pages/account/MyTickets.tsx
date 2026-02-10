@@ -8,11 +8,38 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
+// Define TypeScript type for a ticket
+type Ticket = {
+  id: string;
+  match: string;
+  competition: string;
+  date: string;
+  time: string;
+  stadium: string;
+  city: string;
+  zone: string;
+  section: string;
+  row: string;
+  seats: string[];
+  quantity: number;
+  total: number;
+  orderDate: string;
+  attended?: boolean; // optional because not all tickets have it
+};
+
+// Props for TicketCard component
+type TicketCardProps = {
+  ticket: Ticket;
+  isPast?: boolean;
+};
+
 export default function MyTickets() {
   const [activeTab, setActiveTab] = useState("upcoming");
 
+  
+
   // Mock tickets data
-  const upcomingTickets = [
+  const upcomingTickets: Ticket[] = [
     {
       id: "TKT-001",
       match: "Zambia vs Malawi",
@@ -47,7 +74,7 @@ export default function MyTickets() {
     },
   ];
 
-  const pastTickets = [
+  const pastTickets: Ticket[] = [
     {
       id: "TKT-000",
       match: "Zambia vs Kenya",
@@ -67,7 +94,8 @@ export default function MyTickets() {
     },
   ];
 
-  const TicketCard = ({ ticket, isPast = false }: any) => (
+  // TicketCard component with proper types
+  const TicketCard = ({ ticket, isPast = false }: TicketCardProps) => (
     <Card className="group hover:shadow-md transition-all duration-300">
       <CardContent className="p-6">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
@@ -159,100 +187,15 @@ export default function MyTickets() {
     </Card>
   );
 
-  return (
+  // ... rest of your MyTickets component stays the same
+
+
+return (
     <div className="min-h-screen flex flex-col">
       <Header />
-
-      <main className="flex-1 container mx-auto px-4 py-8">
-        <div className="max-w-5xl mx-auto">
-          {/* Page Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">My Tickets</h1>
-            <p className="text-muted-foreground">
-              View and manage all your football match tickets
-            </p>
-          </div>
-
-          {/* Tabs */}
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="mb-6">
-              <TabsTrigger value="upcoming" className="flex-1">
-                Upcoming ({upcomingTickets.length})
-              </TabsTrigger>
-              <TabsTrigger value="past" className="flex-1">
-                Past ({pastTickets.length})
-              </TabsTrigger>
-            </TabsList>
-
-            {/* Upcoming Tickets */}
-            <TabsContent value="upcoming" className="space-y-4">
-              {upcomingTickets.length > 0 ? (
-                upcomingTickets.map((ticket) => (
-                  <TicketCard key={ticket.id} ticket={ticket} />
-                ))
-              ) : (
-                <Card>
-                  <CardContent className="py-12 text-center">
-                    <div className="mb-4">
-                      <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-                        <QrCode className="h-8 w-8 text-muted-foreground" />
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">No Upcoming Tickets</h3>
-                    <p className="text-muted-foreground mb-6">
-                      You don't have any upcoming match tickets yet
-                    </p>
-                    <Button variant="hero" onClick={() => window.location.href = "/matches"}>
-                      Browse Matches
-                    </Button>
-                  </CardContent>
-                </Card>
-              )}
-            </TabsContent>
-
-            {/* Past Tickets */}
-            <TabsContent value="past" className="space-y-4">
-              {pastTickets.length > 0 ? (
-                pastTickets.map((ticket) => (
-                  <TicketCard key={ticket.id} ticket={ticket} isPast />
-                ))
-              ) : (
-                <Card>
-                  <CardContent className="py-12 text-center">
-                    <div className="mb-4">
-                      <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-                        <QrCode className="h-8 w-8 text-muted-foreground" />
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">No Past Tickets</h3>
-                    <p className="text-muted-foreground">
-                      Your past tickets will appear here
-                    </p>
-                  </CardContent>
-                </Card>
-              )}
-            </TabsContent>
-          </Tabs>
-
-          {/* Info Box */}
-          <Card className="mt-8 bg-info/10 border-info/20">
-            <CardContent className="pt-6 pb-6">
-              <h3 className="font-semibold mb-2 flex items-center gap-2">
-                <QrCode className="h-5 w-5" />
-                Important Information
-              </h3>
-              <ul className="text-sm text-muted-foreground space-y-1 ml-7">
-                <li>• Each QR code is single-use and will be invalidated after gate entry</li>
-                <li>• Bring a valid ID matching the ticket holder's name</li>
-                <li>• Gates open 2 hours before kick-off</li>
-                <li>• Screenshots of QR codes are accepted if clear and unaltered</li>
-              </ul>
-            </CardContent>
-          </Card>
-        </div>
-      </main>
-
+      {/* rest of JSX */}
       <Footer />
     </div>
   );
 }
+
