@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { Bell, Trophy, Ticket, ShieldAlert, CreditCard, Settings, Trash2, CheckCircle2 } from "lucide-react";
+import { Trophy, 
+  Ticket, 
+  ShieldAlert, 
+  CreditCard, 
+  Settings, 
+  CheckCircle2 } from "lucide-react";
 
 type NotificationType = "match" | "order" | "payment" | "security" | "system";
 
@@ -29,21 +34,26 @@ const typeStyles: Record<NotificationType, { icon: any; color: string; bg: strin
 };
 
 export default function Notifications() {
-  const [notifications] = useState(notificationsData);
+  // Initialize state with the mock data
+  const [notifications, setNotifications] = useState<Notification[]>(notificationsData);
+
+  // FUNCTION: Mark all as read
+  const markAllAsRead = () => {
+    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+  };
+
+  // FUNCTION: Mark single notification as read when clicked
+  const markAsRead = (id: number) => {
+    setNotifications(prev => 
+      prev.map(n => n.id === id ? { ...n, read: true } : n)
+    );
+  };
 
   return (
-    /* Removed max-width to match System Settings page margin */
     <div className="w-full animate-in fade-in duration-500">
       
-      {/* HEADER SECTION: Fixed Font to Inter Black Italic tracking-tighter */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
         <div>
-          <div className="flex items-center gap-2 mb-2">
-            <div className="h-1 w-8 bg-[#ef7d00] rounded-full" />
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">
-              Admin Management Console
-            </span>
-          </div>
           <h1 className="text-3xl md:text-3xl font-black uppercase italic tracking-tighter text-[#0e633d]">
             SYSTEM <span className="text-[#ef7d00]">NOTIFICATIONS</span>
           </h1>
@@ -53,14 +63,17 @@ export default function Notifications() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-[10px] font-black uppercase tracking-tighter text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
-            <CheckCircle2 className="h-4 w-4 text-[#0e633d]" />
+          {/* Functional Button */}
+          <button 
+            onClick={markAllAsRead}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-[10px] font-black uppercase tracking-tighter text-slate-600 hover:bg-slate-50 active:scale-95 transition-all shadow-sm group"
+          >
+            <CheckCircle2 className="h-4 w-4 text-[#0e633d] group-hover:scale-110 transition-transform" />
             Mark all as read
           </button>
         </div>
       </div>
 
-      {/* NOTIFICATIONS LIST: Matching Card Spacing & Accent Lines */}
       <div className="space-y-4 w-full">
         {notifications.map((notification) => {
           const config = typeStyles[notification.type];
@@ -69,15 +82,15 @@ export default function Notifications() {
           return (
             <div
               key={notification.id}
-              className={`group relative overflow-hidden p-6 rounded-[2rem] border transition-all duration-300 bg-white ${
+              onClick={() => markAsRead(notification.id)}
+              className={`group relative overflow-hidden p-6 rounded-[2rem] border transition-all duration-300 bg-white cursor-pointer ${
                 notification.read
                   ? "border-slate-100 opacity-80 shadow-sm"
                   : "border-white shadow-[0_15px_30px_-10px_rgba(14,99,61,0.12)] ring-1 ring-[#0e633d]/5"
               } hover:translate-x-1`}
             >
-              {/* Vertical Accent Line - Matching Screenshot (144) */}
               <div 
-                className={`absolute left-0 top-0 bottom-0 w-1.5 transition-colors ${
+                className={`absolute left-0 top-0 bottom-0 w-1.5 transition-colors duration-500 ${
                   notification.read ? 'bg-slate-200' : 'bg-[#ef7d00]'
                 }`} 
               />
@@ -92,7 +105,7 @@ export default function Notifications() {
                 <div className="flex-1">
                   <div className="flex justify-between items-start">
                     <h3
-                      className={`font-black text-lg uppercase italic tracking-tighter leading-none mb-1 ${
+                      className={`font-black text-lg tracking-tighter leading-none mb-1 transition-colors duration-500 ${
                         notification.read ? "text-slate-500" : "text-[#0e633d]"
                       }`}
                     >
@@ -103,7 +116,7 @@ export default function Notifications() {
                     </span>
                   </div>
 
-                  <p className="text-sm text-slate-500 font-bold leading-relaxed mt-2 uppercase tracking-tight opacity-90">
+                  <p className="text-sm text-slate-500 font-medium leading-relaxed mt-2 tracking-tight opacity-90">
                     {notification.message}
                   </p>
                 </div>

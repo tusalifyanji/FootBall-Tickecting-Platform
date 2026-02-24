@@ -23,7 +23,12 @@ export default function Orders() {
   const [matchFilter, setMatchFilter] = useState("all");
   const [paymentFilter, setPaymentFilter] = useState("all");
 
-  const filtered = orders.filter((o) => {
+  // Logic to remove duplicates from the dummy data by Name
+  const uniqueOrders = orders.filter((order, index, self) =>
+    index === self.findIndex((t) => t.buyerName === order.buyerName)
+  );
+
+  const filtered = uniqueOrders.filter((o) => {
     const s = `${o.buyerName} ${o.id}`.toLowerCase().includes(search.toLowerCase());
     const st = statusFilter === "all" || o.status === statusFilter;
     const mf = matchFilter === "all" || o.matchId === matchFilter;
@@ -33,7 +38,6 @@ export default function Orders() {
 
   return (
     <div className="space-y-8 font-sans text-slate-900">
-
       {/* Header */}
       <div className="border-b border-slate-200 pb-6">
         <h2 className="text-3xl font-black uppercase italic tracking-tighter text-[#0e633d]">
@@ -46,11 +50,10 @@ export default function Orders() {
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3">
-
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
           <Input
-            placeholder="Search Buyer or Order ID..."
+            placeholder="Search Unique Buyer..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-9 h-11 rounded-xl bg-slate-50 border-slate-200 font-bold"
@@ -99,7 +102,6 @@ export default function Orders() {
       {/* Table */}
       <Card className="border-none shadow-xl rounded-[2rem] overflow-hidden">
         <CardContent className="p-0">
-
           <Table>
             <TableHeader className="bg-slate-900">
               <TableRow>
@@ -122,38 +124,30 @@ export default function Orders() {
               {filtered.map((order) => {
                 const match = matches.find(m => m.id === order.matchId);
                 return (
-                  <TableRow key={order.id} className="hover:bg-slate-50">
-
+                  <TableRow key={order.id} className="hover:bg-slate-50 border-b border-slate-100">
                     <TableCell className="font-mono text-[10px] text-slate-400 font-bold">
                       #{order.id.slice(-6).toUpperCase()}
                     </TableCell>
-
-                    <TableCell className="font-bold">
+                    <TableCell className="font-bold whitespace-nowrap">
                       {order.buyerName}
                     </TableCell>
-
-                    <TableCell className="text-sm">
+                    <TableCell className="text-sm whitespace-nowrap">
                       {match ? `${match.homeTeam} vs ${match.awayTeam}` : "-"}
                     </TableCell>
-
                     <TableCell className="font-black text-[#0e633d]">
                       {order.zone}
                     </TableCell>
-
-                    <TableCell className="font-bold">
+                    <TableCell className="font-bold text-center">
                       {order.seats}
                     </TableCell>
-
                     <TableCell className="font-black text-[#0e633d]">
                       K {order.amount.toLocaleString()}
                     </TableCell>
-
                     <TableCell>
-                      <Badge variant="outline" className="font-bold">
+                      <Badge variant="outline" className="font-bold border-slate-200">
                         {order.paymentMethod}
                       </Badge>
                     </TableCell>
-
                     <TableCell>
                       <Badge
                         className={`${statusColor[order.status]} border-none text-[10px] uppercase font-black tracking-widest`}
@@ -161,25 +155,21 @@ export default function Orders() {
                         {order.status}
                       </Badge>
                     </TableCell>
-
                     <TableCell className="text-xs text-slate-400 font-bold">
                       {format(new Date(order.createdAt), "dd MMM, HH:mm")}
                     </TableCell>
-
                     <TableCell className="text-right">
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button
                             variant="outline"
                             size="sm"
-                            className="h-8 text-xs font-black uppercase tracking-widest hover:text-[#0e633d]"
+                            className="h-8 text-xs font-black uppercase tracking-widest hover:text-[#0e633d] hover:border-[#0e633d]"
                           >
                             View Ticket
                           </Button>
                         </DialogTrigger>
-
                         <DialogContent className="sm:max-w-md rounded-2xl">
-
                           <DialogHeader>
                             <DialogTitle className="flex items-center gap-2 text-[#0e633d] font-black uppercase tracking-widest">
                               <img
@@ -190,96 +180,56 @@ export default function Orders() {
                               Order Details
                             </DialogTitle>
                           </DialogHeader>
-
                           <div className="grid grid-cols-2 gap-4 py-6 text-sm border-t border-b">
-
                             <div>
-                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                                Buyer Name
-                              </p>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Buyer Name</p>
                               <p className="font-bold">{order.buyerName}</p>
                             </div>
-
                             <div>
-                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                                Phone Number
-                              </p>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Phone Number</p>
                               <p className="font-bold">{order.buyerPhone}</p>
                             </div>
-
                             <div className="col-span-2">
-                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                                Match
-                              </p>
-                              <p className="font-bold">
-                                {match ? `${match.homeTeam} vs ${match.awayTeam}` : "-"}
-                              </p>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Match</p>
+                              <p className="font-bold">{match ? `${match.homeTeam} vs ${match.awayTeam}` : "-"}</p>
                             </div>
-
                             <div>
-                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                                Stadium Wing
-                              </p>
-                              <p className="font-black text-[#0e633d]">
-                                {order.zone}
-                              </p>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Stadium Wing</p>
+                              <p className="font-black text-[#0e633d]">{order.zone}</p>
                             </div>
-
                             <div>
-                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                                Tickets
-                              </p>
-                              <p className="font-bold">
-                                {order.seats} Seat(s)
-                              </p>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Tickets</p>
+                              <p className="font-bold">{order.seats} Seat(s)</p>
                             </div>
-
                             <div>
-                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                                Total Paid
-                              </p>
-                              <p className="font-black text-[#0e633d]">
-                                K {order.amount.toLocaleString()}
-                              </p>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Total Paid</p>
+                              <p className="font-black text-[#0e633d]">K {order.amount.toLocaleString()}</p>
                             </div>
-
                             <div>
-                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                                Payment Via
-                              </p>
-                              <Badge variant="outline" className="font-bold">
-                                {order.paymentMethod}
-                              </Badge>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Payment Via</p>
+                              <Badge variant="outline" className="font-bold">{order.paymentMethod}</Badge>
                             </div>
-
                           </div>
-
                           <div className="flex justify-between text-[10px] font-bold text-slate-400 pt-4">
                             <span>Transaction ID: {order.id}</span>
-                            <span>
-                              Issued: {format(new Date(order.createdAt), "PPP p")}
-                            </span>
+                            <span>Issued: {format(new Date(order.createdAt), "PPP p")}</span>
                           </div>
-
                         </DialogContent>
                       </Dialog>
                     </TableCell>
-
                   </TableRow>
                 );
               })}
 
               {filtered.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={10} className="text-center py-12 text-slate-400 font-bold uppercase tracking-widest text-xs">
-                    No Orders Found For Current Filters
+                  <TableCell colSpan={10} className="text-center py-20 text-slate-300 font-black uppercase tracking-[0.2em] text-xs italic">
+                    No Orders Found
                   </TableCell>
                 </TableRow>
               )}
-
             </TableBody>
           </Table>
-
         </CardContent>
       </Card>
     </div>

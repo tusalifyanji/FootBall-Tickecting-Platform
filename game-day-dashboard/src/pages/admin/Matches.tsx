@@ -14,8 +14,7 @@ import { adminApi } from "@/lib/api";
 import type { MatchStatus } from "@/data/types";
 import { cn } from "@/lib/utils";
 
-/** * OFFICIAL ZAMBIAN STADIUM CAPACITIES
- */
+/** * OFFICIAL ZAMBIAN STADIUM CAPACITIES */
 const STADIUM_CAPACITIES: Record<string, number> = {
   "Heroes Stadium": 60000,
   "Woodlands Stadium": 10000,

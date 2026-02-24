@@ -8,8 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
-import { matches } from "@/data/mockData";
-import type { MatchCategory, Match } from "@/data/types";
 
 interface WingInput {
   name: string;
@@ -18,7 +16,7 @@ interface WingInput {
   totalSeats: string;
 }
 
-const categories: MatchCategory[] = ["National", "League", "Cup", "Friendly", "World Cup Qualifier"];
+const categories = ["National", "League", "Cup", "Friendly", "World Cup Qualifier"];
 
 const stadiumOptions = [
   { name: "Heroes Stadium", capacity: "60,000" },
@@ -29,16 +27,29 @@ const stadiumOptions = [
   { name: "Arthur Davies Stadium", capacity: "15,000" },
 ];
 
+const teamOptions = [
+  "Zambia (Chipolopolo)", "ZESCO United", "Power Dynamos", "Nkana FC", 
+  "Red Arrows", "Green Buffaloes", "Zanaco FC", "Kabwe Warriors", "Forest Rangers"
+];
+
 export default function CreateMatch() {
   const navigate = useNavigate();
   const { toast } = useToast();
   
+  // Team States
   const [homeTeam, setHomeTeam] = useState("");
+  const [isCustomHome, setIsCustomHome] = useState(false);
   const [awayTeam, setAwayTeam] = useState("");
+  const [isCustomAway, setIsCustomAway] = useState(false);
+
+  // Venue & Match States
   const [category, setCategory] = useState<string>("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [venue, setVenue] = useState("");
+  const [customVenue, setCustomVenue] = useState("");
+  const [isCustomVenue, setIsCustomVenue] = useState(false);
+  
   const [saleDeadlineDate, setSaleDeadlineDate] = useState("");
   const [saleDeadlineTime, setSaleDeadlineTime] = useState("15:00");
   const [maxTickets, setMaxTickets] = useState("4");
@@ -53,7 +64,7 @@ export default function CreateMatch() {
   ]);
 
   useEffect(() => {
-    if (venue) {
+    if (venue && !isCustomVenue) {
       const selectedStadium = stadiumOptions.find((s) => s.name === venue);
       if (selectedStadium) {
         const totalCapacity = parseInt(selectedStadium.capacity.replace(/,/g, ""), 10);
@@ -68,7 +79,7 @@ export default function CreateMatch() {
         setWings(updatedWings);
       }
     }
-  }, [venue, wings.length]);
+  }, [venue, wings.length, isCustomVenue]);
 
   const updateWing = (i: number, field: keyof WingInput, value: string) => {
     const updated = [...wings];
@@ -78,7 +89,7 @@ export default function CreateMatch() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({ title: "Match Published", description: "FAZ Match is now live for sales." });
+    toast({ title: "Match Published", description: "FAZ Match is now live." });
     navigate("/admin/matches");
   };
 
@@ -113,15 +124,55 @@ export default function CreateMatch() {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-8 space-y-5">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase text-slate-400">Home Team</Label>
-                  <Input value={homeTeam} onChange={e => setHomeTeam(e.target.value)} className="h-12 rounded-xl border-slate-100 font-bold" placeholder="Team A" />
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase text-slate-400">Away Team</Label>
-                  <Input value={awayTeam} onChange={e => setAwayTeam(e.target.value)} className="h-12 rounded-xl border-slate-100 font-bold" placeholder="Team B" />
-                </div>
+              
+              {/* Home Team Selection */}
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase text-slate-400">Home Team</Label>
+                <Select onValueChange={(val) => {
+                  if(val === "CUSTOM") { setIsCustomHome(true); setHomeTeam(""); }
+                  else { setIsCustomHome(false); setHomeTeam(val); }
+                }}>
+                  <SelectTrigger className="h-12 rounded-xl border-slate-100 font-bold">
+                    <SelectValue placeholder="Select Home Team" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {teamOptions.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}
+                    <SelectItem value="CUSTOM" className="text-[#0e633d] font-black">+ Other (Manual Entry)</SelectItem>
+                  </SelectContent>
+                </Select>
+                {isCustomHome && (
+                  <Input 
+                    value={homeTeam} 
+                    onChange={e => setHomeTeam(e.target.value)} 
+                    className="h-11 rounded-xl border-[#ef7d00]/30 bg-orange-50/20 font-bold mt-2 animate-in fade-in slide-in-from-top-1" 
+                    placeholder="Enter Team Name..." 
+                  />
+                )}
+              </div>
+
+              {/* Away Team Selection */}
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase text-slate-400">Away Team</Label>
+                <Select onValueChange={(val) => {
+                  if(val === "CUSTOM") { setIsCustomAway(true); setAwayTeam(""); }
+                  else { setIsCustomAway(false); setAwayTeam(val); }
+                }}>
+                  <SelectTrigger className="h-12 rounded-xl border-slate-100 font-bold">
+                    <SelectValue placeholder="Select Away Team" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {teamOptions.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}
+                    <SelectItem value="CUSTOM" className="text-[#0e633d] font-black">+ Other (Manual Entry)</SelectItem>
+                  </SelectContent>
+                </Select>
+                {isCustomAway && (
+                  <Input 
+                    value={awayTeam} 
+                    onChange={e => setAwayTeam(e.target.value)} 
+                    className="h-11 rounded-xl border-[#ef7d00]/30 bg-orange-50/20 font-bold mt-2 animate-in fade-in slide-in-from-top-1" 
+                    placeholder="Enter Team Name..." 
+                  />
+                )}
               </div>
 
               <div className="space-y-2">
@@ -147,18 +198,28 @@ export default function CreateMatch() {
 
               <div className="space-y-2">
                 <Label className="text-[10px] font-black uppercase text-slate-400">Venue</Label>
-                <Select onValueChange={setVenue}>
+                <Select onValueChange={(val) => {
+                  if (val === "CUSTOM") { setIsCustomVenue(true); setVenue(""); } 
+                  else { setIsCustomVenue(false); setVenue(val); }
+                }}>
                   <SelectTrigger className="h-12 rounded-xl border-slate-100 font-bold">
                     <SelectValue placeholder="Select Stadium" />
                   </SelectTrigger>
                   <SelectContent>
                     {stadiumOptions.map(s => (
-                      <SelectItem key={s.name} value={s.name}>
-                        {s.name} ({s.capacity})
-                      </SelectItem>
+                      <SelectItem key={s.name} value={s.name}>{s.name} ({s.capacity})</SelectItem>
                     ))}
+                    <SelectItem value="CUSTOM" className="text-[#0e633d] font-black">+ Other (Manual Entry)</SelectItem>
                   </SelectContent>
                 </Select>
+                {isCustomVenue && (
+                  <Input 
+                    value={customVenue} 
+                    onChange={e => setCustomVenue(e.target.value)} 
+                    className="h-11 rounded-xl border-[#ef7d00]/30 bg-orange-50/20 font-bold mt-2 animate-in fade-in slide-in-from-top-1" 
+                    placeholder="Enter Stadium Name..." 
+                  />
+                )}
               </div>
 
               <div className="pt-4 border-t border-slate-50">
@@ -217,7 +278,7 @@ export default function CreateMatch() {
                   <p className="text-[10px] font-black text-slate-400 uppercase">Allocation Progress</p>
                   <p className="text-2xl font-black text-[#0e633d]">
                     {wings.reduce((sum, w) => sum + parseInt(w.totalSeats || "0", 10), 0).toLocaleString()} 
-                    <span className="text-slate-300 text-sm font-bold ml-2">/ {venue ? stadiumOptions.find(s => s.name === venue)?.capacity : "---"}</span>
+                    <span className="text-slate-300 text-sm font-bold ml-2">/ {isCustomVenue ? "CUSTOM" : (venue ? stadiumOptions.find(s => s.name === venue)?.capacity : "---")}</span>
                   </p>
                 </div>
                 <Button type="submit" className="bg-[#0e633d] hover:bg-[#0a4d2f] text-white h-16 rounded-2xl px-14 font-black uppercase italic tracking-wider shadow-lg transition-all active:scale-95 text-lg">

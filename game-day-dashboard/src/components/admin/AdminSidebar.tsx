@@ -1,4 +1,12 @@
-import { LayoutDashboard, Trophy, Ticket, BarChart3, Settings, ExternalLink, ChevronRight, Bell } from "lucide-react";
+import { 
+  LayoutDashboard, 
+  Trophy,
+  Ticket, 
+  BarChart3, 
+  Settings, 
+  ExternalLink, 
+  ChevronRight, 
+  Bell } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupLabel,
@@ -80,20 +88,6 @@ export function AdminSidebar() {
                 <span className="text-[11px] font-bold text-slate-600">All Systems Operational</span>
             </div>
         </div>
-
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <NavLink 
-                to="/" 
-                className="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-[#0e633d] hover:bg-white border border-transparent hover:border-slate-100 rounded-xl transition-all font-bold text-sm"
-              >
-                <ExternalLink className="h-4 w-4 text-[#ef7d00]" />
-                <span className="group-data-[collapsible=icon]:hidden italic uppercase tracking-tighter">View Live Site</span>
-              </NavLink>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
   );
