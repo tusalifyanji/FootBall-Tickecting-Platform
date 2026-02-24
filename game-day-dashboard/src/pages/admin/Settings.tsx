@@ -11,153 +11,148 @@ import {
   Mail, 
   Save, 
   Lock,
-  Zap,
-  Settings2
+  Zap
 } from "lucide-react";
 
 export default function Settings() {
   return (
-    <div className="max-w-5xl mx-auto space-y-12 pb-16 font-['Times_New_Roman',serif]">
+    /* Changed max-w-5xl to max-w-7xl and added lg:p-10 to match the other pages */
+    <div className="min-h-screen bg-slate-50/50 p-6 lg:p-10 font-sans text-slate-900">
       
-      {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b-2 border-slate-100 pb-8">
+      {/* Header Section - Matches Fixtures & Dashboard alignment */}
+      <header className="max-w-7xl mx-auto mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-slate-200 pb-8">
         <div>
-          <h2 className="text-5xl font-bold tracking-tight text-slate-900 uppercase">
-            System <span className="text-[#0e633d]">Settings</span>
-          </h2>
-          <p className="text-xl text-slate-500 italic mt-2">Official Administrative Portal Configuration</p>
+          <h1 className="text-3xl font-black uppercase italic tracking-tighter leading-none text-[#0e633d]">
+            SYSTEM <span className="text-[#ef7d00]">SETTINGS</span>
+          </h1>
+          <p className="text-slate-400 font-bold uppercase tracking-widest mt-2 text-[10px]">
+            Admin Management Console • Platform Configuration
+          </p>
         </div>
-        <div className="flex items-center gap-4 bg-[#0e633d]/5 px-6 py-3 rounded-2xl border border-[#0e633d]/20">
+
+        <div className="flex items-center gap-4 bg-white px-6 py-3 rounded-2xl border-2 border-slate-100 shadow-sm">
            <ShieldCheck className="h-8 w-8 text-[#0e633d]" />
            <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-[#0e633d] leading-none">Access Level</p>
-              <p className="text-lg font-bold text-slate-800">Super Administrator</p>
            </div>
         </div>
-      </div>
+      </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      {/* Main Content Grid - Wrapped in max-w-7xl to maintain consistency */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* Left Column: Profile & Platform */}
-        <div className="lg:col-span-7 space-y-10">
+        {/* Left Column: Admin Profile & Regional */}
+        <div className="lg:col-span-7 space-y-8">
           
           {/* Admin Profile */}
-          <Card className="border-none shadow-2xl rounded-[2rem] overflow-hidden bg-white">
-            <div className="h-3 bg-[#0e633d] w-full" />
+          <Card className="border-none shadow-xl shadow-slate-200/50 rounded-[2rem] overflow-hidden bg-white">
+            <div className="h-2 bg-[#0e633d] w-full" />
             <CardHeader className="pb-4 pt-10 px-10">
-              <CardTitle className="text-2xl font-bold uppercase tracking-tight text-slate-800 flex items-center gap-4">
-                <User className="h-7 w-7 text-[#ef7d00]" />
+              <CardTitle className="text-xl font-black uppercase tracking-widest text-slate-800 flex items-center gap-3">
+                <User className="h-6 w-6 text-[#ef7d00]" />
                 Admin Profile Details
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-8 p-10">
               <div className="grid gap-8 sm:grid-cols-2">
-                <div className="space-y-3">
-                  <Label className="text-sm font-bold uppercase text-[#0e633d] tracking-wider">Full Name</Label>
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    Full Name
+                  </Label>
                   <Input 
                     defaultValue="Admin User" 
-                    className="h-16 rounded-xl border-slate-200 bg-slate-50 font-bold text-xl px-6 focus:ring-2 focus:ring-[#0e633d] transition-all"
+                    className="h-12 rounded-xl border-slate-100 bg-slate-50/50 font-bold"
                   />
                 </div>
-                <div className="space-y-3">
-                  <Label className="text-sm font-bold uppercase text-[#0e633d] tracking-wider">Email Address</Label>
+
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    Email Address
+                  </Label>
                   <div className="relative">
                     <Input 
                       type="email" 
                       defaultValue="admin@faz.co.zm" 
-                      className="h-16 rounded-xl border-slate-200 bg-slate-50 font-bold text-xl pl-14 focus:ring-2 focus:ring-[#0e633d] transition-all"
+                      className="h-12 rounded-xl border-slate-100 bg-slate-50/50 font-bold pl-12"
                     />
-                    <Mail className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-slate-400" />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
                   </div>
                 </div>
               </div>
               
-              <div className="pt-4">
-                <Button className="h-14 px-10 bg-[#0e633d] hover:bg-emerald-900 text-white rounded-xl shadow-xl shadow-emerald-900/20 transition-all font-bold uppercase italic text-lg tracking-widest">
-                  <Save className="mr-3 h-5 w-5" /> Save Profile Changes
-                </Button>
-              </div>
+              <Button className="h-14 px-10 bg-[#0e633d] hover:bg-[#0a4d2f] text-white rounded-2xl shadow-lg transition-all font-black uppercase tracking-widest text-xs italic">
+                <Save className="mr-3 h-4 w-4" /> Save Profile Changes
+              </Button>
             </CardContent>
           </Card>
 
           {/* Regional Settings */}
-          <Card className="border-2 border-slate-100 shadow-sm bg-white rounded-[2rem]">
+          <Card className="border-none shadow-xl shadow-slate-200/50 bg-white rounded-[2rem] overflow-hidden">
             <CardHeader className="pb-2 pt-10 px-10">
-              <CardTitle className="text-xl font-bold uppercase tracking-widest text-slate-400 flex items-center gap-4">
-                <Globe className="h-6 w-6 text-[#0e633d]" /> Regional Defaults
+              <CardTitle className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 flex items-center gap-3">
+                <Globe className="h-5 w-5 text-[#0e633d]" />
+                Regional Defaults
               </CardTitle>
             </CardHeader>
+
             <CardContent className="grid gap-8 sm:grid-cols-2 p-10">
-              <div className="space-y-3">
-                <Label className="text-sm font-bold uppercase text-slate-400 italic">Default Currency</Label>
-                <div className="h-16 flex items-center px-8 rounded-xl bg-slate-50 border border-slate-100 font-bold text-[#0e633d] text-2xl">
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  Default Currency
+                </Label>
+                <div className="h-12 flex items-center px-6 rounded-xl bg-slate-50 border border-slate-100 font-black text-[#0e633d]">
                   ZMW (K)
                 </div>
               </div>
-              <div className="space-y-3">
-                <Label className="text-sm font-bold uppercase text-slate-400 italic">System Timezone</Label>
-                <div className="h-16 flex items-center px-8 rounded-xl bg-slate-50 border border-slate-100 font-bold text-slate-600 text-xl">
+
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  System Timezone
+                </Label>
+                <div className="h-12 flex items-center px-6 rounded-xl bg-slate-50 border border-slate-100 font-black text-slate-600">
                   Africa/Lusaka
                 </div>
               </div>
-              <div className="sm:col-span-2 p-6 bg-orange-50 rounded-2xl border border-[#ef7d00]/20 flex items-center gap-4">
-                <Lock className="h-6 w-6 text-[#ef7d00]" />
-                <p className="text-sm text-orange-900 font-bold leading-relaxed">
-                  Currency and Timezone settings are locked. Contact system provider to adjust financial localization.
-                </p>
-              </div>
+
             </CardContent>
           </Card>
         </div>
 
         {/* Right Column: Notifications */}
         <div className="lg:col-span-5">
-          <Card className="border-none shadow-2xl rounded-[2.5rem] bg-white border-t-8 border-[#ef7d00] sticky top-8">
-            <CardHeader className="pb-8 pt-12 px-10 text-center">
-              <div className="mx-auto bg-orange-50 w-20 h-20 rounded-full flex items-center justify-center mb-4">
-                <Bell className="h-10 w-10 text-[#ef7d00]" />
-              </div>
-              <CardTitle className="text-3xl font-bold uppercase tracking-tighter text-slate-900">
+          <Card className="border-none shadow-xl shadow-slate-200/50 rounded-[2rem] bg-white border-t-4 border-[#ef7d00]">
+            <CardHeader className="pb-6 pt-10 px-10 text-center">
+              <Bell className="h-10 w-10 text-[#ef7d00] mx-auto mb-4" />
+              <CardTitle className="text-xl font-black uppercase tracking-widest text-slate-900">
                 Notifications
               </CardTitle>
-              <p className="text-slate-500 text-lg italic mt-2">Manage System Dispatch Alerts</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-2">
+                System Alert Configuration
+              </p>
             </CardHeader>
-            <CardContent className="px-10 pb-12 space-y-4">
-              
-              {/* Notification Item */}
-              <div className="flex items-center justify-between p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-[#0e633d] transition-all group">
-                <div className="space-y-1">
-                  <Label className="text-xl font-bold text-slate-800 cursor-pointer">Order Alerts</Label>
-                  <p className="text-xs text-[#0e633d] uppercase tracking-widest font-bold">Email on new order</p>
-                </div>
-                <Switch defaultChecked className="scale-125 data-[state=checked]:bg-[#0e633d]" />
-              </div>
 
-              <div className="flex items-center justify-between p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-[#0e633d] transition-all group">
-                <div className="space-y-1">
-                  <Label className="text-xl font-bold text-slate-800 cursor-pointer">Inventory Alerts</Label>
-                  <p className="text-xs text-[#0e633d] uppercase tracking-widest font-bold">Email on sell-out</p>
+            <CardContent className="px-10 pb-10 space-y-4">
+              {["Order Alerts", "Inventory Alerts", "Sales Reports"].map((item) => (
+                <div key={item} className="flex items-center justify-between p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-[#0e633d]/20 transition-all">
+                  <div>
+                    <Label className="text-sm font-black text-slate-800 cursor-pointer uppercase tracking-wide">
+                      {item}
+                    </Label>
+                    <p className="text-[9px] font-black uppercase tracking-widest text-[#0e633d]">
+                      Email Notification
+                    </p>
+                  </div>
+                  <Switch className="scale-110 data-[state=checked]:bg-[#0e633d]" />
                 </div>
-                <Switch defaultChecked className="scale-125 data-[state=checked]:bg-[#0e633d]" />
-              </div>
+              ))}
 
-              <div className="flex items-center justify-between p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-[#0e633d] transition-all group">
-                <div className="space-y-1">
-                  <Label className="text-xl font-bold text-slate-800 cursor-pointer">Sales Reports</Label>
-                  <p className="text-xs text-[#0e633d] uppercase tracking-widest font-bold">Daily summary report</p>
-                </div>
-                <Switch className="scale-125 data-[state=checked]:bg-[#0e633d]" />
-              </div>
-
-              <div className="mt-8 pt-8 border-t border-slate-100">
-                <div className="flex items-start gap-4 p-4 rounded-xl bg-slate-100/50">
+              <div className="mt-8 pt-6 border-t border-slate-100">
+                <div className="flex items-start gap-3 p-4 rounded-xl bg-slate-50/80">
                   <Zap className="h-5 w-5 text-[#ef7d00] mt-1 shrink-0" />
-                  <p className="text-sm text-slate-500 font-bold leading-tight italic">
-                    Push notifications are currently active for this session. Ensure your browser allows alerts.
+                  <p className="text-[10px] text-slate-500 font-black uppercase tracking-wide leading-relaxed">
+                    Push notifications are active for this administrative session.
                   </p>
                 </div>
               </div>
-
             </CardContent>
           </Card>
         </div>

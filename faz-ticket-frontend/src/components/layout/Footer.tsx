@@ -18,7 +18,7 @@ export const Footer = () => {
               <div className="h-10 w-10 bg-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-900/40">
                 <ShieldCheck className="text-white" size={24} />
               </div>
-              <span className="text-2xl font-black tracking-tighter italic">FAZ<span className="text-emerald-500">TICKETS</span></span>
+              <span className="text-2xl font-black tracking-tighter italic">FAZ<span className="text-emerald-500">TICKETING</span></span>
             </div>
             
             <p className="text-emerald-100/60 text-sm leading-relaxed max-w-sm">

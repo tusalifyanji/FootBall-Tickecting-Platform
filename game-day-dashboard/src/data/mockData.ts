@@ -75,9 +75,6 @@ const buyers = [
   { name: "Chilufya Mulenga", phone: "0953456789" },
   { name: "Kapasa Banda", phone: "0974567890" },
   { name: "Mutale Katongo", phone: "0965678901" },
-  { name: "Nchimunya Phiri", phone: "0956789012" },
-  { name: "Kasonde Lungu", phone: "0977890123" },
-  { name: "Tembo Zulu", phone: "0968901234" },
 ];
 
 const paymentMethods: ("MTN" | "Airtel" | "Zamtel")[] = ["MTN", "Airtel", "Zamtel"];

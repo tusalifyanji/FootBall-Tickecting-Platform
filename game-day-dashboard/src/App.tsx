@@ -12,6 +12,7 @@ import CreateMatch from "./pages/admin/CreateMatch";
 import Orders from "./pages/admin/Orders";
 import Analytics from "./pages/admin/Analytics";
 import Settings from "./pages/admin/Settings";
+import Notifications from "./pages/admin/Notifications";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="orders" element={<Orders />} />
             <Route path="analytics" element={<Analytics />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="notifications" element={<Notifications />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

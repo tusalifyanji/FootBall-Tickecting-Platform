@@ -11,8 +11,8 @@ import { orders, matches } from "@/data/mockData";
 import { format } from "date-fns";
 
 const statusColor: Record<string, string> = {
-  confirmed: "bg-green-100 text-green-800",
-  pending: "bg-yellow-100 text-yellow-800",
+  confirmed: "bg-emerald-100 text-emerald-800",
+  pending: "bg-orange-100 text-orange-800",
   refunded: "bg-red-100 text-red-800",
   cancelled: "bg-gray-100 text-gray-800",
 };
@@ -32,16 +32,35 @@ export default function Orders() {
   });
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold tracking-tight text-primary">FAZ Orders & Tickets</h2>
+    <div className="space-y-8 font-sans text-slate-900">
 
+      {/* Header */}
+      <div className="border-b border-slate-200 pb-6">
+        <h2 className="text-3xl font-black uppercase italic tracking-tighter text-[#0e633d]">
+          FAZ <span className="text-[#ef7d00]">Orders</span>
+        </h2>
+        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-2">
+          Ticketing Transactions & Payment Records
+        </p>
+      </div>
+
+      {/* Filters */}
       <div className="flex flex-wrap gap-3">
+
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search buyer or order ID..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-8" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <Input
+            placeholder="Search Buyer or Order ID..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-9 h-11 rounded-xl bg-slate-50 border-slate-200 font-bold"
+          />
         </div>
+
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-[130px]"><SelectValue placeholder="Status" /></SelectTrigger>
+          <SelectTrigger className="w-[140px] h-11 rounded-xl font-bold">
+            <SelectValue placeholder="Status" />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
             <SelectItem value="confirmed">Confirmed</SelectItem>
@@ -49,15 +68,25 @@ export default function Orders() {
             <SelectItem value="refunded">Refunded</SelectItem>
           </SelectContent>
         </Select>
+
         <Select value={matchFilter} onValueChange={setMatchFilter}>
-          <SelectTrigger className="w-[200px]"><SelectValue placeholder="All Matches" /></SelectTrigger>
+          <SelectTrigger className="w-[220px] h-11 rounded-xl font-bold">
+            <SelectValue placeholder="All Matches" />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Matches</SelectItem>
-            {matches.map(m => <SelectItem key={m.id} value={m.id}>{m.homeTeam} vs {m.awayTeam}</SelectItem>)}
+            {matches.map(m => (
+              <SelectItem key={m.id} value={m.id}>
+                {m.homeTeam} vs {m.awayTeam}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
+
         <Select value={paymentFilter} onValueChange={setPaymentFilter}>
-          <SelectTrigger className="w-[130px]"><SelectValue placeholder="Payment" /></SelectTrigger>
+          <SelectTrigger className="w-[150px] h-11 rounded-xl font-bold">
+            <SelectValue placeholder="Payment" />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Pay</SelectItem>
             <SelectItem value="MTN">MTN</SelectItem>
@@ -67,73 +96,190 @@ export default function Orders() {
         </Select>
       </div>
 
-      <Card className="border-sidebar-border shadow-sm">
+      {/* Table */}
+      <Card className="border-none shadow-xl rounded-[2rem] overflow-hidden">
         <CardContent className="p-0">
+
           <Table>
-            <TableHeader className="bg-slate-50/50">
+            <TableHeader className="bg-slate-900">
               <TableRow>
-                <TableHead className="w-[100px]">Order ID</TableHead>
-                <TableHead>Buyer</TableHead>
-                <TableHead>Match</TableHead>
-                <TableHead>Wing Selection</TableHead>
-                <TableHead>Qty</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Provider</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Purchase Date</TableHead>
-                <TableHead className="text-right">Action</TableHead>
+                {[
+                  "Order ID", "Buyer", "Match", "Wing",
+                  "Qty", "Amount", "Provider", "Status",
+                  "Purchase Date", "Action"
+                ].map((head) => (
+                  <TableHead
+                    key={head}
+                    className="text-[10px] font-black uppercase tracking-widest text-[#ef7d00]"
+                  >
+                    {head}
+                  </TableHead>
+                ))}
               </TableRow>
             </TableHeader>
+
             <TableBody>
               {filtered.map((order) => {
                 const match = matches.find(m => m.id === order.matchId);
                 return (
-                  <TableRow key={order.id} className="hover:bg-slate-50/30">
-                    <TableCell className="font-mono text-[10px] text-muted-foreground">#{order.id.slice(-6).toUpperCase()}</TableCell>
-                    <TableCell className="font-medium text-sm">{order.buyerName}</TableCell>
-                    <TableCell className="text-xs">{match ? `${match.homeTeam} vs ${match.awayTeam}` : "-"}</TableCell>
-                    {/* Changed Zone to Wing */}
-                    <TableCell className="text-xs font-semibold">{order.zone}</TableCell> 
-                    <TableCell>{order.seats}</TableCell>
-                    <TableCell className="font-bold">K {order.amount.toLocaleString()}</TableCell>
-                    <TableCell><Badge variant="outline" className="font-normal">{order.paymentMethod}</Badge></TableCell>
-                    <TableCell><Badge variant="secondary" className={`${statusColor[order.status]} border-none shadow-none text-[10px] uppercase font-bold`}>{order.status}</Badge></TableCell>
-                    <TableCell className="text-xs text-muted-foreground">{format(new Date(order.createdAt), "dd MMM, HH:mm")}</TableCell>
+                  <TableRow key={order.id} className="hover:bg-slate-50">
+
+                    <TableCell className="font-mono text-[10px] text-slate-400 font-bold">
+                      #{order.id.slice(-6).toUpperCase()}
+                    </TableCell>
+
+                    <TableCell className="font-bold">
+                      {order.buyerName}
+                    </TableCell>
+
+                    <TableCell className="text-sm">
+                      {match ? `${match.homeTeam} vs ${match.awayTeam}` : "-"}
+                    </TableCell>
+
+                    <TableCell className="font-black text-[#0e633d]">
+                      {order.zone}
+                    </TableCell>
+
+                    <TableCell className="font-bold">
+                      {order.seats}
+                    </TableCell>
+
+                    <TableCell className="font-black text-[#0e633d]">
+                      K {order.amount.toLocaleString()}
+                    </TableCell>
+
+                    <TableCell>
+                      <Badge variant="outline" className="font-bold">
+                        {order.paymentMethod}
+                      </Badge>
+                    </TableCell>
+
+                    <TableCell>
+                      <Badge
+                        className={`${statusColor[order.status]} border-none text-[10px] uppercase font-black tracking-widest`}
+                      >
+                        {order.status}
+                      </Badge>
+                    </TableCell>
+
+                    <TableCell className="text-xs text-slate-400 font-bold">
+                      {format(new Date(order.createdAt), "dd MMM, HH:mm")}
+                    </TableCell>
+
                     <TableCell className="text-right">
                       <Dialog>
-                        <DialogTrigger asChild><Button variant="outline" size="sm" className="h-8 text-xs">View Ticket</Button></DialogTrigger>
-                        <DialogContent className="sm:max-w-md">
+                        <DialogTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-8 text-xs font-black uppercase tracking-widest hover:text-[#0e633d]"
+                          >
+                            View Ticket
+                          </Button>
+                        </DialogTrigger>
+
+                        <DialogContent className="sm:max-w-md rounded-2xl">
+
                           <DialogHeader>
-                            <DialogTitle className="flex items-center gap-2">
-                              <img src="https://res.cloudinary.com/dceqpo559/image/upload/v1769602379/faz_logo_cl3wx5.png" alt="FAZ" className="h-6 w-6" />
+                            <DialogTitle className="flex items-center gap-2 text-[#0e633d] font-black uppercase tracking-widest">
+                              <img
+                                src="https://res.cloudinary.com/dceqpo559/image/upload/v1769602379/faz_logo_cl3wx5.png"
+                                alt="FAZ"
+                                className="h-6 w-6"
+                              />
                               Order Details
                             </DialogTitle>
                           </DialogHeader>
-                          <div className="grid grid-cols-2 gap-4 py-4 text-sm border-t border-b">
-                            <div className="space-y-1"><p className="text-xs text-muted-foreground uppercase">Buyer Name</p><p className="font-medium">{order.buyerName}</p></div>
-                            <div className="space-y-1"><p className="text-xs text-muted-foreground uppercase">Phone Number</p><p className="font-medium">{order.buyerPhone}</p></div>
-                            <div className="col-span-2 space-y-1"><p className="text-xs text-muted-foreground uppercase">Match</p><p className="font-medium">{match ? `${match.homeTeam} vs ${match.awayTeam}` : "-"}</p></div>
-                            {/* Detailed Wing Information */}
-                            <div className="space-y-1"><p className="text-xs text-muted-foreground uppercase">Stadium Wing</p><p className="font-bold text-primary">{order.zone}</p></div>
-                            <div className="space-y-1"><p className="text-xs text-muted-foreground uppercase">Tickets</p><p className="font-medium">{order.seats} Seat(s)</p></div>
-                            <div className="space-y-1"><p className="text-xs text-muted-foreground uppercase">Total Paid</p><p className="font-bold">K {order.amount.toLocaleString()}</p></div>
-                            <div className="space-y-1"><p className="text-xs text-muted-foreground uppercase">Payment Via</p><Badge variant="outline">{order.paymentMethod}</Badge></div>
+
+                          <div className="grid grid-cols-2 gap-4 py-6 text-sm border-t border-b">
+
+                            <div>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                                Buyer Name
+                              </p>
+                              <p className="font-bold">{order.buyerName}</p>
+                            </div>
+
+                            <div>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                                Phone Number
+                              </p>
+                              <p className="font-bold">{order.buyerPhone}</p>
+                            </div>
+
+                            <div className="col-span-2">
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                                Match
+                              </p>
+                              <p className="font-bold">
+                                {match ? `${match.homeTeam} vs ${match.awayTeam}` : "-"}
+                              </p>
+                            </div>
+
+                            <div>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                                Stadium Wing
+                              </p>
+                              <p className="font-black text-[#0e633d]">
+                                {order.zone}
+                              </p>
+                            </div>
+
+                            <div>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                                Tickets
+                              </p>
+                              <p className="font-bold">
+                                {order.seats} Seat(s)
+                              </p>
+                            </div>
+
+                            <div>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                                Total Paid
+                              </p>
+                              <p className="font-black text-[#0e633d]">
+                                K {order.amount.toLocaleString()}
+                              </p>
+                            </div>
+
+                            <div>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                                Payment Via
+                              </p>
+                              <Badge variant="outline" className="font-bold">
+                                {order.paymentMethod}
+                              </Badge>
+                            </div>
+
                           </div>
-                          <div className="flex justify-between items-center text-[10px] text-muted-foreground pt-2">
+
+                          <div className="flex justify-between text-[10px] font-bold text-slate-400 pt-4">
                             <span>Transaction ID: {order.id}</span>
-                            <span>Issued: {format(new Date(order.createdAt), "PPP p")}</span>
+                            <span>
+                              Issued: {format(new Date(order.createdAt), "PPP p")}
+                            </span>
                           </div>
-                        </DialogContent> 
+
+                        </DialogContent>
                       </Dialog>
                     </TableCell>
+
                   </TableRow>
                 );
               })}
+
               {filtered.length === 0 && (
-                <TableRow><TableCell colSpan={10} className="text-center py-12 text-muted-foreground">No matches found for the current filters.</TableCell></TableRow>
+                <TableRow>
+                  <TableCell colSpan={10} className="text-center py-12 text-slate-400 font-bold uppercase tracking-widest text-xs">
+                    No Orders Found For Current Filters
+                  </TableCell>
+                </TableRow>
               )}
+
             </TableBody>
           </Table>
+
         </CardContent>
       </Card>
     </div>
